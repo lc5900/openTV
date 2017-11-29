@@ -1,4 +1,4 @@
-package com.lc5900.tv;
+package com.lc5900.tv.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InternetVideoDemo extends AppCompatActivity implements PlayerManager.PlayerStateListener {
-    private PlayerManager player;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    private PlayerManager player;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_internet_video_demo);
@@ -53,7 +54,7 @@ public class InternetVideoDemo extends AppCompatActivity implements PlayerManage
 
     @Override
     public void onError() {
-
+        Toast.makeText(this, "视频加载出现错误，请更换视频源或稍后再试。", Toast.LENGTH_LONG).show();
     }
 
     @Override

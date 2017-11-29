@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lc5900.tv.fragment.MainFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:id="@+id/menuListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+</FrameLayout>
