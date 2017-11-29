@@ -1,4 +1,4 @@
-package com.example.liuchun.tv;
+package com.lc5900.tv;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.lc5900.liuchun.tv.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

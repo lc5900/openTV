@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.liuchun.tv"
+        applicationId "com.lc5900.liuchun.tv"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -16,8 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']  /**在libs文件夹下找so文件*/
+        }
+    }
 }
-
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs' /**在libs文件夹下找aar文件*/
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -27,4 +37,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile(name: 'ijkplayer-java-debug', ext: 'aar') /**编译ijkplayer-java-release.aar文件*/
+
 }

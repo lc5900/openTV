@@ -1,4 +1,4 @@
-package com.example.liuchun.tv;
+package com.lc5900.liuchun.tv;
 
 import org.junit.Test;
 
