@@ -193,7 +193,7 @@ fun SettingsScreen(
                         icon = Icons.Rounded.Info,
                         iconColor = Color(0xFF9B7BFF),
                         title = "关于 OpenTV",
-                        subtitle = "当前版本 2.0.0 · Kotlin / Compose / Media3",
+                        subtitle = "当前版本 2.0.0 · Apache-2.0 开源协议",
                     )
                 }
                 item { Spacer(Modifier.height(18.dp)) }

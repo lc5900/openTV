@@ -1,5 +1,8 @@
 # OpenTV
 
+[![Android CI](https://github.com/lc5900/openTV/actions/workflows/android-ci.yml/badge.svg)](https://github.com/lc5900/openTV/actions/workflows/android-ci.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 <p align="center">
   <img src="app/src/main/res/drawable-nodpi/ic_launcher_brand.png" width="112" alt="OpenTV 图标">
 </p>
@@ -70,3 +73,7 @@ https://example.com/live/news.m3u8
 RTSP 支持取决于流媒体编码和设备解码能力。当前不支持 UDP 多播、Stalker Portal 或 Xtream Codes API 登录。内置频道仅用于演示公开直播能力，播放地址可能因服务方调整、网络环境或地区限制而失效；请仅订阅和播放你有权访问的内容。
 
 贡献代码前请阅读 [AGENTS.md](AGENTS.md)。
+
+## 开源协议
+
+OpenTV 使用 [Apache License 2.0](LICENSE) 发布。你可以使用、修改和分发本项目，包括商业用途，但需要保留许可证和版权声明。内置或订阅的直播内容不属于本项目授权范围，使用者需要自行确认内容访问权。
