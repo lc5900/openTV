@@ -21,7 +21,10 @@ data class ChannelUiState(
     val settingsMessage: String? = null,
 ) {
     val visibleChannels: List<TvChannel>
-        get() = channels.filter { it.name.contains(query.trim(), ignoreCase = true) }
+        get() = channels.filter {
+            it.name.contains(query.trim(), ignoreCase = true) ||
+                it.group.contains(query.trim(), ignoreCase = true)
+        }
 }
 
 class ChannelViewModel(private val repository: ChannelRepository) : ViewModel() {
@@ -101,8 +104,8 @@ class ChannelViewModel(private val repository: ChannelRepository) : ViewModel() 
 
     fun addSource(channelId: Int, url: String) {
         changeSources(channelId) { sources ->
-            val normalized = ChannelRepository.normalizeNetworkUrl(url)
-                ?: error("请输入有效的 HTTP 或 HTTPS 播放地址")
+            val normalized = ChannelRepository.normalizePlaybackUrl(url)
+                ?: error("请输入有效的 HTTP、HTTPS 或 RTSP 播放地址")
             require(normalized !in sources) { "该播放源已存在" }
             sources + normalized
         }
@@ -110,8 +113,8 @@ class ChannelViewModel(private val repository: ChannelRepository) : ViewModel() 
 
     fun updateSource(channelId: Int, sourceIndex: Int, url: String) {
         changeSources(channelId) { sources ->
-            val normalized = ChannelRepository.normalizeNetworkUrl(url)
-                ?: error("请输入有效的 HTTP 或 HTTPS 播放地址")
+            val normalized = ChannelRepository.normalizePlaybackUrl(url)
+                ?: error("请输入有效的 HTTP、HTTPS 或 RTSP 播放地址")
             require(normalized !in sources.filterIndexed { index, _ -> index != sourceIndex }) {
                 "该播放源已存在"
             }

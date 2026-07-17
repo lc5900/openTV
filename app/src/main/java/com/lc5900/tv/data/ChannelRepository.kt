@@ -44,7 +44,7 @@ class ChannelRepository(private val context: Context) {
     suspend fun subscribe(subscriptionUrl: String): List<TvChannel> {
         val url = normalizeNetworkUrl(subscriptionUrl) ?: error("请输入有效的 HTTP 或 HTTPS 订阅地址")
         val response = downloadCatalog(url)
-        val channels = parseSubscription(response)
+        val channels = parseSubscription(response, url)
         require(channels.isNotEmpty()) { "订阅中没有可播放的频道" }
 
         context.channelDataStore.edit { preferences ->
@@ -104,10 +104,15 @@ class ChannelRepository(private val context: Context) {
         private const val READ_TIMEOUT_MS = 15_000
         private const val MAX_CATALOG_BYTES = 2 * 1024 * 1024
 
-        fun normalizeNetworkUrl(value: String): String? = runCatching {
+        fun normalizeNetworkUrl(value: String): String? = normalizeUrl(value, setOf("http", "https"))
+
+        fun normalizePlaybackUrl(value: String): String? =
+            normalizeUrl(value, setOf("http", "https", "rtsp"))
+
+        private fun normalizeUrl(value: String, allowedSchemes: Set<String>): String? = runCatching {
             val uri = URI(value.trim())
             value.trim().takeIf {
-                uri.scheme?.lowercase() in setOf("http", "https") && !uri.host.isNullOrBlank()
+                uri.scheme?.lowercase() in allowedSchemes && !uri.host.isNullOrBlank()
             }
         }.getOrNull()
 
@@ -116,46 +121,77 @@ class ChannelRepository(private val context: Context) {
                 val item = element.jsonObject
                 val id = item["id"]?.jsonPrimitive?.intOrNull ?: return@mapNotNull null
                 val name = item["name"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null
+                val group = item["group"]?.jsonPrimitive?.contentOrNull.orEmpty().trim()
                 val urls = item["urls"]?.jsonArray
                     ?.mapNotNull { it.jsonPrimitive.contentOrNull }
                     ?.map(String::trim)
-                    ?.filter { normalizeNetworkUrl(it) != null }
+                    ?.filter { normalizePlaybackUrl(it) != null }
                     ?.distinct()
                     .orEmpty()
 
-                TvChannel(id = id, name = name.trim(), urls = urls)
+                TvChannel(id = id, name = name.trim(), urls = urls, group = group)
                     .takeIf { name.isNotBlank() && urls.isNotEmpty() }
             }.distinctBy(TvChannel::id)
 
-        fun parseSubscription(content: String): List<TvChannel> =
-            if (content.trimStart().startsWith("[")) parseChannels(content) else parseM3u(content)
+        fun parseSubscription(content: String, baseUrl: String? = null): List<TvChannel> {
+            val normalizedContent = content.removePrefix("\uFEFF")
+            return if (normalizedContent.trimStart().startsWith("[")) {
+                parseChannels(normalizedContent)
+            } else {
+                parseM3u(normalizedContent, baseUrl)
+            }
+        }
 
-        fun parseM3u(content: String): List<TvChannel> {
-            val entries = mutableListOf<Pair<String, String>>()
+        fun parseM3u(content: String, baseUrl: String? = null): List<TvChannel> {
+            val entries = mutableListOf<PlaylistEntry>()
             var pendingName: String? = null
+            var pendingGroup: String? = null
 
             content.lineSequence().forEach { rawLine ->
-                val line = rawLine.trim()
+                val line = rawLine.trim().removePrefix("\uFEFF")
                 when {
                     line.startsWith("#EXTINF", ignoreCase = true) -> {
-                        pendingName = line.substringAfterLast(',').trim().ifBlank { null }
+                        val attributes = EXTINF_ATTRIBUTE.findAll(line).associate {
+                            it.groupValues[1].lowercase() to it.groupValues[2].trim()
+                        }
+                        pendingName = line.substringAfterLast(',').trim().ifBlank {
+                            attributes["tvg-name"].orEmpty()
+                        }.ifBlank { null }
+                        pendingGroup = attributes["group-title"]?.ifBlank { null }
+                    }
+                    line.startsWith("#EXTGRP:", ignoreCase = true) -> {
+                        pendingGroup = line.substringAfter(':').trim().ifBlank { null }
                     }
                     line.isNotBlank() && !line.startsWith("#") -> {
-                        normalizeNetworkUrl(line)?.let { url ->
+                        resolvePlaylistUrl(line, baseUrl)?.let { url ->
                             val name = pendingName ?: URI(url).host ?: "未命名频道"
-                            entries += name to url
+                            entries += PlaylistEntry(name, pendingGroup.orEmpty(), url)
                         }
                         pendingName = null
+                        pendingGroup = null
                     }
                 }
             }
 
             return entries
-                .groupBy(keySelector = Pair<String, String>::first, valueTransform = Pair<String, String>::second)
+                .groupBy(PlaylistEntry::name)
                 .entries
-                .mapIndexed { index, (name, urls) ->
-                    TvChannel(id = index + 1, name = name, urls = urls.distinct())
+                .mapIndexed { index, (name, sources) ->
+                    TvChannel(
+                        id = index + 1,
+                        name = name,
+                        urls = sources.map(PlaylistEntry::url).distinct(),
+                        group = sources.firstNotNullOfOrNull { it.group.ifBlank { null } }.orEmpty(),
+                    )
                 }
+        }
+
+        private fun resolvePlaylistUrl(value: String, baseUrl: String?): String? {
+            normalizePlaybackUrl(value)?.let { return it }
+            if (baseUrl == null) return null
+            return runCatching { URI(baseUrl).resolve(value).toString() }
+                .getOrNull()
+                ?.let(::normalizePlaybackUrl)
         }
 
         fun encodeChannels(channels: List<TvChannel>): String = buildJsonArray {
@@ -163,9 +199,14 @@ class ChannelRepository(private val context: Context) {
                 add(buildJsonObject {
                     put("id", channel.id)
                     put("name", channel.name)
+                    if (channel.group.isNotBlank()) put("group", channel.group)
                     put("urls", buildJsonArray { channel.urls.forEach { add(JsonPrimitive(it)) } })
                 })
             }
         }.toString()
+
+        private val EXTINF_ATTRIBUTE = Regex("([\\w-]+)\\s*=\\s*\"([^\"]*)\"")
+
+        private data class PlaylistEntry(val name: String, val group: String, val url: String)
     }
 }

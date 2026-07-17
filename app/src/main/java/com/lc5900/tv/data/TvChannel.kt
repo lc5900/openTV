@@ -4,4 +4,5 @@ data class TvChannel(
     val id: Int,
     val name: String,
     val urls: List<String>,
+    val group: String = "",
 )

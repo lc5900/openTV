@@ -185,7 +185,7 @@ private fun SubscriptionCard(
         Column(modifier = Modifier.padding(20.dp)) {
             Text("网络订阅", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(
-                text = "支持 M3U/EXTINF 和 OpenTV JSON 格式；同名频道会合并为多条线路。同步后会替换当前频道列表。",
+                text = "支持 IPTV M3U/M3U8、EXTINF 分组和 OpenTV JSON；可播放 HLS、HTTP 直播流及 RTSP。同步后会替换当前频道列表。",
                 modifier = Modifier.padding(top = 6.dp),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -197,7 +197,7 @@ private fun SubscriptionCard(
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 label = { Text("订阅地址") },
-                placeholder = { Text("https://example.com/channels.json") },
+                placeholder = { Text("https://example.com/iptv.m3u") },
                 singleLine = true,
                 enabled = !isSyncing,
             )
@@ -249,6 +249,13 @@ private fun ChannelSourcesCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(channel.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                if (channel.group.isNotBlank()) {
+                    Text(
+                        channel.group,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
                 Text(
                     "${channel.urls.size} 条播放线路",
                     style = MaterialTheme.typography.bodySmall,
@@ -301,7 +308,7 @@ private fun SourceEditorDialog(
                 onValueChange = { value = it },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("播放地址") },
-                placeholder = { Text("https://example.com/live.m3u8") },
+                placeholder = { Text("https://example.com/live.m3u8 或 rtsp://...") },
                 minLines = 2,
             )
         },

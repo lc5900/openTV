@@ -1,254 +1,93 @@
 [
     {
         "id": 1,
-        "name": "CCTV-1高清",
+        "name": "CGTN 英语",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225922/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225922/index.m3u8"
+            "https://english-livebkali.cgtn.com/live/encgtn.m3u8"
         ]
     },
     {
         "id": 2,
-        "name": "CCTV-2高清",
+        "name": "浙江国际",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225923/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225923/index.m3u8"
+            "https://ali-m-l.cztv.com/channels/lantian/channel010/1080p.m3u8"
         ]
     },
     {
         "id": 3,
-        "name": "CCTV-3高清",
+        "name": "浙江新闻",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225924/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225924/index.m3u8"
+            "https://ali-m-l.cztv.com/channels/lantian/channel007/1080p.m3u8"
         ]
     },
     {
         "id": 4,
-        "name": "CCTV-4高清",
+        "name": "河北卫视",
         "urls": [
-            "http://61.166.153.32:1180/play/playback/90000001000000050000000000000199/live100001.m3u8"
+            "https://event.pull.hebtv.com/live/live101.m3u8"
         ]
     },
     {
         "id": 5,
-        "name": "CCTV-5高清",
+        "name": "哈尔滨影视",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225925/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225925/index.m3u8",
-            "http://183.251.61.207/PLTV/88888888/224/3221225912/index.m3u8"
+            "https://stream.hrbtv.net/yspd/playlist.m3u8"
         ]
     },
     {
         "id": 6,
-        "name": "CCTV-5+高清",
+        "name": "VOA 中文",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225915/index.m3u8",
-            "http://183.251.61.207/PLTV/88888888/224/3221225939/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225939/index.m3u8"
+            "https://voa-ingest.akamaized.net/hls/live/2033878/tvmc08/playlist.m3u8"
         ]
     },
     {
         "id": 7,
-        "name": "CCTV-6高清",
+        "name": "NHK World-Japan",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225926/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225926/index.m3u8"
+            "https://masterpl.hls.nhkworld.jp/hls/w/live/smarttv.m3u8"
         ]
     },
     {
         "id": 8,
-        "name": "CCTV-7高清",
+        "name": "France 24 English",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225927/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225927/index.m3u8"
+            "https://live.france24.com/hls/live/2037218/F24_EN_HI_HLS/master_2300.m3u8"
         ]
     },
     {
         "id": 9,
-        "name": "CCTV-8高清",
+        "name": "Al Jazeera English",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225928/index.m3u8"
+            "https://live-hls-apps-aje-fa.getaj.net/AJE/index.m3u8"
         ]
     },
     {
         "id": 10,
-        "name": "CCTV-9高清",
+        "name": "Arirang TV",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225929/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225929/index.m3u8"
+            "https://amdlive-ch01-ctnd-com.akamaized.net/arirang_1ch/smil:arirang_1ch.smil/playlist.m3u8"
         ]
     },
     {
         "id": 11,
-        "name": "CCTV-10高清",
+        "name": "EBS 1 教育",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225931/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225931/index.m3u8"
+            "https://ebsonair.ebs.co.kr/ebs1familypc/familypc1m/playlist.m3u8"
         ]
     },
     {
         "id": 12,
-        "name": "CCTV-12高清",
+        "name": "Euronews English",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225932/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225932/index.m3u8"
+            "https://cdn-euronews.akamaized.net/live/eds/euronews-en/25002/index.m3u8"
         ]
     },
     {
         "id": 13,
-        "name": "CCTV-14高清",
+        "name": "Tagesschau 24",
         "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225933/index.m3u8"
-        ]
-    },
-    {
-        "id": 14,
-        "name": "凤凰中文高清",
-        "urls": [
-            "http://223.110.245.139:80/PLTV/3/224/3221226977/index.m3u8"
-        ]
-    },
-    {
-        "id": 15,
-        "name": "凤凰资讯高清",
-        "urls": [
-            "http://223.110.245.139:80/PLTV/3/224/3221226980/index.m3u8"
-        ]
-    },
-    {
-        "id": 16,
-        "name": "凤凰香港高清",
-        "urls": [
-            "http://223.110.245.139:80/PLTV/3/224/3221226975/index.m3u8"
-        ]
-    },
-    {
-        "id": 17,
-        "name": "翡翠台高清",
-        "urls": [
-            "http://acm.gg/jade.m3u8"
-        ]
-    },
-    {
-        "id": 18,
-        "name": "河南卫视高清",
-        "urls": [
-            "http://live.hntv.tv:9602/live/live1/500k/tzwj_video.m3u8?KEY1=cf0371210a6565caef80a24887046400&KEY2=5a0aa17b",
-            "http://live.hntv.tv:9601/live/live1/500k/tzwj_video.m3u8?KEY1=cf0371210a6565caef80a24887046400&KEY2=5a0aa17b"
-        ]
-    },
-    {
-        "id": 19,
-        "name": "天津卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225941/index.m3u8",
-            "http://183.252.176.10/PLTV/88888888/224/3221225941/index.m3u8"
-        ]
-    },
-    {
-        "id": 20,
-        "name": "北京卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225937/index.m3u8"
-        ]
-    },
-    {
-        "id": 21,
-        "name": "纪实频道高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225946/index.m3u8"
-        ]
-    },
-    {
-        "id": 22,
-        "name": "湖南卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225935/index.m3u8"
-        ]
-    },
-    {
-        "id": 23,
-        "name": "湖北卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225948/index.m3u8"
-        ]
-    },
-    {
-        "id": 24,
-        "name": "浙江卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225934/index.m3u8"
-        ]
-    },
-    {
-        "id": 25,
-        "name": "东方卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225936/index.m3u8"
-        ]
-    },
-    {
-        "id": 26,
-        "name": "安徽卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225945/index.m3u8"
-        ]
-    },
-    {
-        "id": 27,
-        "name": "山东卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225943/index.m3u8"
-        ]
-    },
-    {
-        "id": 28,
-        "name": "广东卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225942/index.m3u8"
-        ]
-    },
-    {
-        "id": 29,
-        "name": "深圳卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225938/index.m3u8"
-        ]
-    },
-    {
-        "id": 30,
-        "name": "重庆卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225949/index.m3u8"
-        ]
-    },
-    {
-        "id": 31,
-        "name": "江苏卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225930/index.m3u8"
-        ]
-    },
-    {
-        "id": 32,
-        "name": "江西卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225834/index.m3u8"
-        ]
-    },
-    {
-        "id": 33,
-        "name": "辽宁卫视高清",
-        "urls": [
-            "http://183.252.176.10/PLTV/88888888/224/3221225947/index.m3u8"
-        ]
-    },
-    {
-        "id": 34,
-        "name": "黑龙江卫视高清",
-        "urls": [
-            "http://183.251.61.207/PLTV/88888888/224/3221225940/index.m3u8"
+            "https://tagesschau.akamaized.net/hls/live/2020115/tagesschau/tagesschau_1/master.m3u8"
         ]
     }
 ]
