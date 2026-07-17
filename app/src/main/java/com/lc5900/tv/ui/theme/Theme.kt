@@ -1,12 +1,12 @@
 package com.lc5900.tv.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -14,32 +14,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private val LightColors = lightColorScheme(
-    primary = Color(0xFF006A78),
-    onPrimary = Color.White,
-    primaryContainer = Color(0xFF9DEFFD),
-    onPrimaryContainer = Color(0xFF001F25),
-    secondary = Color(0xFF445E91),
-    secondaryContainer = Color(0xFFD9E2FF),
-    tertiary = Color(0xFF006C51),
-    background = Color(0xFFF7FAFC),
-    surface = Color(0xFFF7FAFC),
-    surfaceContainer = Color(0xFFEDF2F5),
-    surfaceContainerLow = Color(0xFFF2F6F8),
-    surfaceContainerHigh = Color(0xFFE7ECEF),
-)
-
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF51D9ED),
-    onPrimary = Color(0xFF00363E),
-    primaryContainer = Color(0xFF004E59),
-    secondary = Color(0xFFB2C5FF),
-    tertiary = Color(0xFF55DBAD),
-    background = Color(0xFF071016),
-    surface = Color(0xFF071016),
-    surfaceContainer = Color(0xFF141F26),
-    surfaceContainerLow = Color(0xFF0E191F),
-    surfaceContainerHigh = Color(0xFF1E2A31),
+    primary = Color(0xFF8B5CFF),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFF2C1A62),
+    onPrimaryContainer = Color(0xFFE9DEFF),
+    secondary = Color(0xFF54A0FF),
+    onSecondary = Color.White,
+    secondaryContainer = Color(0xFF172A50),
+    onSecondaryContainer = Color(0xFFDCE5FF),
+    tertiary = Color(0xFF50D89D),
+    onTertiary = Color(0xFF002116),
+    error = Color(0xFFFF5B65),
+    onError = Color.White,
+    background = Color(0xFF05070D),
+    onBackground = Color(0xFFF5F7FC),
+    surface = Color(0xFF0B101A),
+    onSurface = Color(0xFFF5F7FC),
+    onSurfaceVariant = Color(0xFFA7B0C0),
+    surfaceContainer = Color(0xFF111824),
+    surfaceContainerLow = Color(0xFF0D131E),
+    surfaceContainerHigh = Color(0xFF17202E),
+    outline = Color(0xFF3A4352),
+    outlineVariant = Color(0xFF252E3D),
 )
 
 private val OpenTvTypography = Typography(
@@ -78,13 +75,13 @@ private val OpenTvShapes = Shapes(
 
 @Composable
 fun OpenTvTheme(content: @Composable () -> Unit) {
-    val darkTheme = isSystemInDarkTheme()
-    val colors = if (darkTheme) DarkColors else LightColors
-
     MaterialTheme(
-        colorScheme = colors,
+        colorScheme = DarkColors,
         typography = OpenTvTypography,
         shapes = OpenTvShapes,
-        content = content,
-    )
+    ) {
+        CompositionLocalProvider(LocalContentColor provides DarkColors.onBackground) {
+            content()
+        }
+    }
 }

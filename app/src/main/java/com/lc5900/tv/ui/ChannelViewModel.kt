@@ -102,6 +102,30 @@ class ChannelViewModel(private val repository: ChannelRepository) : ViewModel() 
         }
     }
 
+    fun addChannel(name: String, group: String, url: String) {
+        viewModelScope.launch {
+            runCatching {
+                val normalizedName = name.trim()
+                require(normalizedName.isNotBlank()) { "请输入频道名称" }
+                require(_uiState.value.channels.none { it.name.equals(normalizedName, ignoreCase = true) }) {
+                    "该频道已存在，可直接为它添加播放线路"
+                }
+                val normalizedUrl = ChannelRepository.normalizePlaybackUrl(url)
+                    ?: error("请输入有效的 HTTP、HTTPS 或 RTSP 播放地址")
+                val channels = _uiState.value.channels + TvChannel(
+                    id = (_uiState.value.channels.maxOfOrNull(TvChannel::id) ?: 0) + 1,
+                    name = normalizedName,
+                    urls = listOf(normalizedUrl),
+                    group = group.trim(),
+                )
+                repository.saveChannels(channels)
+                channels
+            }.onSuccess { channels ->
+                _uiState.update { it.copy(channels = channels, settingsMessage = "频道已添加") }
+            }.onFailure(::showSettingsError)
+        }
+    }
+
     fun addSource(channelId: Int, url: String) {
         changeSources(channelId) { sources ->
             val normalized = ChannelRepository.normalizePlaybackUrl(url)
