@@ -2,6 +2,8 @@ package com.lc5900.tv.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +25,7 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material.icons.rounded.Tv
+import androidx.compose.material.icons.rounded.LiveTv
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,10 +48,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.lc5900.tv.R
 import com.lc5900.tv.data.TvChannel
 import com.lc5900.tv.ui.player.PlayerScreen
 
@@ -105,13 +109,22 @@ private fun ChannelBrowser(
         topBar = {
             TopAppBar(
                 title = {
-                    Column {
-                        Text("OpenTV", fontWeight = FontWeight.Bold)
-                        Text(
-                            text = "随时观看你喜欢的频道",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_launcher_brand),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(44.dp)
+                                .clip(RoundedCornerShape(14.dp)),
                         )
+                        Column(modifier = Modifier.padding(start = 12.dp)) {
+                            Text("OpenTV", fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "开放、纯粹的电视体验",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
                     }
                 },
                 actions = {
@@ -156,16 +169,17 @@ private fun ChannelContent(
     onChannelClick: (TvChannel) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
+        WelcomeBanner(channelCount = uiState.channels.size)
         OutlinedTextField(
             value = uiState.query,
             onValueChange = onQueryChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 12.dp),
+                .padding(horizontal = 20.dp, vertical = 10.dp),
             placeholder = { Text("搜索频道") },
             leadingIcon = { Icon(Icons.Rounded.Search, contentDescription = null) },
             singleLine = true,
-            shape = RoundedCornerShape(18.dp),
+            shape = RoundedCornerShape(22.dp),
         )
 
         Row(
@@ -201,12 +215,80 @@ private fun ChannelContent(
 }
 
 @Composable
+private fun WelcomeBanner(channelCount: Int) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(30.dp))
+            .background(
+                Brush.linearGradient(
+                    listOf(Color(0xFF043B4A), Color(0xFF075C70), Color(0xFF166A9A)),
+                ),
+            )
+            .padding(horizontal = 22.dp, vertical = 20.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Surface(
+                modifier = Modifier.size(58.dp),
+                shape = RoundedCornerShape(20.dp),
+                color = Color.White.copy(alpha = 0.14f),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.LiveTv,
+                    contentDescription = null,
+                    modifier = Modifier.padding(15.dp),
+                    tint = Color(0xFF73F2F2),
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 16.dp),
+            ) {
+                Text(
+                    text = "电视，简单一点",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                )
+                Text(
+                    text = "$channelCount 个直播频道 · 支持多线路自动切换",
+                    modifier = Modifier.padding(top = 4.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.72f),
+                )
+            }
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFF4EE0C1).copy(alpha = 0.18f),
+            ) {
+                Text(
+                    text = "LIVE",
+                    modifier = Modifier.padding(horizontal = 11.dp, vertical = 7.dp),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF71F1D3),
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun ChannelCard(channel: TvChannel, onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(26.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp, pressedElevation = 4.dp),
+        modifier = Modifier.border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f),
+            shape = RoundedCornerShape(26.dp),
+        ),
     ) {
         Row(
             modifier = Modifier
@@ -215,16 +297,30 @@ private fun ChannelCard(channel: TvChannel, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Surface(
-                modifier = Modifier.size(52.dp),
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
+                modifier = Modifier.size(56.dp),
+                shape = RoundedCornerShape(19.dp),
+                color = if (channel.id % 2 == 0) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.secondaryContainer
+                },
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Tv,
-                    contentDescription = null,
-                    modifier = Modifier.padding(13.dp),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = channel.id.toString().padStart(2, '0'),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                    Text(
+                        text = "CH",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.65f),
+                    )
+                }
             }
             Column(
                 modifier = Modifier
@@ -245,7 +341,11 @@ private fun ChannelCard(channel: TvChannel, onClick: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primary) {
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primary,
+                shadowElevation = 3.dp,
+            ) {
                 Icon(
                     Icons.Rounded.PlayArrow,
                     contentDescription = "播放 ${channel.name}",
